@@ -31,6 +31,14 @@ export class User {
     }
     return null;
   }
+
+  static isRider(): boolean {
+    const user = User.getUser();
+    if (user === null) {
+      return false;
+    }
+    return user.group === 'rider';
+  }
 }
 
 @Injectable({

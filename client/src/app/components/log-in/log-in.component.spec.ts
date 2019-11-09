@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserFactory } from '../../testing/factories';
 import { LogInComponent } from '../log-in/log-in.component';
 
-fdescribe('LogInComponent', () => {
+describe('LogInComponent', () => {
   let component: LogInComponent;
   let fixture: ComponentFixture<LogInComponent>;
   let router: Router;

@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import { AuthService, User } from './auth.service';
 import { UserFactory } from '../testing/factories';
 
-fdescribe('Authentication using a service', () => {
+describe('Authentication using a service', () => {
   let authService: AuthService;
   let httpMock: HttpTestingController;
 

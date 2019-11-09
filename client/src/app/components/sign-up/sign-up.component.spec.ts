@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserFactory } from '../../testing/factories';
 import { SignUpComponent } from './sign-up.component';
 
-fdescribe('SignUpComponent', () => {
+describe('SignUpComponent', () => {
   let component: SignUpComponent;
   let fixture: ComponentFixture<SignUpComponent>;
   let router: Router;
