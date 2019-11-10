@@ -2,7 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { WebSocketSubject, webSocket } from 'rxjs/webSocket';
+import { map, share } from 'rxjs/operators';
 
 import { User } from './auth.service';
 
@@ -36,13 +37,36 @@ export class Trip {
   providedIn: 'root'
 })
 export class TripService {
+
+  webSocket: WebSocketSubject<any>;
+  messages: Observable<any>;
+
   constructor(
     private http: HttpClient
   ) {}
+
+  connect(): void {
+    if (!this.webSocket || this.webSocket.closed) {
+      this.webSocket = webSocket('ws://localhost:8080/taxi/');
+      this.messages = this.webSocket.pipe(share());
+      this.messages.subscribe(message => console.log(message));
+    }
+  }
 
   getTrips(): Observable<Trip[]> {
     return this.http.get<Trip[]>('/api/trip/').pipe(
       map(trips => trips.map(trip => Trip.create(trip)))
     );
+  }
+
+  createTrip(trip: Trip): void {
+    this.connect();
+    const message: any = {
+      type: 'create.trip',
+      data: {
+        ...trip, rider: trip.rider.id
+      }
+    };
+    this.webSocket.next(message);
   }
 }

@@ -33,6 +33,18 @@ describe('TripService', () => {
     ]);
   });
 
+  it('should allow a user to create a trip', () => {
+    tripService.webSocket = jasmine.createSpyObj('webSocket', ['next']);
+    const trip = TripFactory.create();
+    tripService.createTrip(trip);
+    expect(tripService.webSocket.next).toHaveBeenCalledWith({
+      type: 'create.trip',
+      data: {
+        ...trip, rider: trip.rider.id
+      }
+    });
+  });
+
   afterEach(() => {
     httpMock.verify();
   });

@@ -15,6 +15,7 @@ import { LogInComponent } from './components/log-in/log-in.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { RiderComponent } from './components/rider/rider.component';
 import { RiderDashboardComponent } from './components/rider-dashboard/rider-dashboard.component';
+import { RiderRequestComponent } from './components/rider-request/rider-request.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RiderDashboardComponent } from './components/rider-dashboard/rider-dash
     LogInComponent,
     LandingComponent,
     RiderComponent,
-    RiderDashboardComponent
+    RiderDashboardComponent,
+    RiderRequestComponent
   ],
   imports: [
     HttpClientModule,
@@ -37,6 +39,10 @@ import { RiderDashboardComponent } from './components/rider-dashboard/rider-dash
         component: RiderComponent,
         canActivate: [ IsRider ],
         children: [
+          {
+            path: 'request',
+            component: RiderRequestComponent
+          },
           {
             path: '',
             component: RiderDashboardComponent,
