@@ -39,6 +39,14 @@ export class User {
     }
     return user.group === 'rider';
   }
+
+  static isDriver(): boolean {
+    const user = User.getUser();
+    if (user === null) {
+      return false;
+    }
+    return user.group === 'driver';
+  }
 }
 
 @Injectable({

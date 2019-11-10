@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AuthService } from './services/auth.service';
+import { IsDriver } from './services/is-driver.service';
 import { IsRider } from './services/is-rider.service';
 import { TripDetailResolver } from './services/trip-detail.resolver';
 import { TripListResolver } from './services/trip-list.resolver';
@@ -19,6 +20,7 @@ import { RiderDashboardComponent } from './components/rider-dashboard/rider-dash
 import { RiderRequestComponent } from './components/rider-request/rider-request.component';
 import { RiderDetailComponent } from './components/rider-detail/rider-detail.component';
 import { TripCardComponent } from './components/trip-card/trip-card.component';
+import { DriverComponent } from './components/driver/driver.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { TripCardComponent } from './components/trip-card/trip-card.component';
     RiderDashboardComponent,
     RiderRequestComponent,
     RiderDetailComponent,
-    TripCardComponent
+    TripCardComponent,
+    DriverComponent
   ],
   imports: [
     HttpClientModule,
@@ -60,15 +63,21 @@ import { TripCardComponent } from './components/trip-card/trip-card.component';
           }
         ]
       },
+      {
+        path: 'driver',
+        component: DriverComponent,
+        canActivate: [ IsDriver ]
+      },
       { path: '', component: LandingComponent }
     ], { useHash: true })
   ],
   providers: [
     AuthService,
+    IsDriver,
     IsRider,
-    TripDetailResolver,
+    TripService,
     TripListResolver,
-    TripService
+    TripDetailResolver
   ],
   bootstrap: [ AppComponent ]
 })
