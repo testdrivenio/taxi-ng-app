@@ -79,4 +79,15 @@ export class TripService {
       map(trip => Trip.create(trip))
     );
   }
+
+  updateTrip(trip: Trip): void {
+    this.connect();
+    const message: any = {
+      type: 'update.trip',
+      data: {
+        ...trip, driver: trip.driver.id, rider: trip.rider.id
+      }
+    };
+    this.webSocket.next(message);
+  }
 }

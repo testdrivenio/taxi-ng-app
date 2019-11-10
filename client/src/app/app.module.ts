@@ -22,6 +22,7 @@ import { RiderDetailComponent } from './components/rider-detail/rider-detail.com
 import { TripCardComponent } from './components/trip-card/trip-card.component';
 import { DriverComponent } from './components/driver/driver.component';
 import { DriverDashboardComponent } from './components/driver-dashboard/driver-dashboard.component';
+import { DriverDetailComponent } from './components/driver-detail/driver-detail.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { DriverDashboardComponent } from './components/driver-dashboard/driver-d
     RiderDetailComponent,
     TripCardComponent,
     DriverComponent,
-    DriverDashboardComponent
+    DriverDashboardComponent,
+    DriverDetailComponent
   ],
   imports: [
     HttpClientModule,
@@ -74,6 +76,11 @@ import { DriverDashboardComponent } from './components/driver-dashboard/driver-d
             path: '',
             component: DriverDashboardComponent,
             resolve: { trips: TripListResolver }
+          },
+          {
+            path: ':id',
+            component: DriverDetailComponent,
+            resolve: { trip: TripDetailResolver }
           }
         ]
       },
