@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 
 import { TripFactory } from '../../testing/factories';
 import { RiderDashboardComponent } from './rider-dashboard.component';
+import { TripCardComponent } from '../../components/trip-card/trip-card.component';
 
 describe('RiderDashboardComponent', () => {
   let component: RiderDashboardComponent;
@@ -25,7 +26,10 @@ describe('RiderDashboardComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ RiderDashboardComponent ],
+      declarations: [
+        RiderDashboardComponent,
+        TripCardComponent
+      ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]

@@ -18,6 +18,7 @@ import { RiderComponent } from './components/rider/rider.component';
 import { RiderDashboardComponent } from './components/rider-dashboard/rider-dashboard.component';
 import { RiderRequestComponent } from './components/rider-request/rider-request.component';
 import { RiderDetailComponent } from './components/rider-detail/rider-detail.component';
+import { TripCardComponent } from './components/trip-card/trip-card.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { RiderDetailComponent } from './components/rider-detail/rider-detail.com
     RiderComponent,
     RiderDashboardComponent,
     RiderRequestComponent,
-    RiderDetailComponent
+    RiderDetailComponent,
+    TripCardComponent
   ],
   imports: [
     HttpClientModule,

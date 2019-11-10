@@ -8,6 +8,8 @@ import { map, share } from 'rxjs/operators';
 import { User } from './auth.service';
 
 export class Trip {
+  public otherUser: User;
+
   constructor(
     public id?: string,
     public created?: string,
@@ -17,7 +19,9 @@ export class Trip {
     public status?: string,
     public driver?: any,
     public rider?: any
-  ) {}
+  ) {
+    this.otherUser = User.isRider() ? this.driver : this.rider;
+  }
 
   static create(data: any): Trip {
     return new Trip(
