@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AuthService } from './services/auth.service';
 import { IsRider } from './services/is-rider.service';
+import { TripListResolver } from './services/trip-list.resolver';
+import { TripService } from './services/trip.service';
 
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
@@ -35,13 +37,17 @@ import { RiderDashboardComponent } from './components/rider-dashboard/rider-dash
         component: RiderComponent,
         canActivate: [ IsRider ],
         children: [
-          { path: '', component: RiderDashboardComponent }
+          {
+            path: '',
+            component: RiderDashboardComponent,
+            resolve: { trips: TripListResolver }
+          }
         ]
       },
       { path: '', component: LandingComponent }
     ], { useHash: true })
   ],
-  providers: [ AuthService, IsRider ],
+  providers: [ AuthService, IsRider, TripListResolver, TripService ],
   bootstrap: [ AppComponent ]
 })
 
