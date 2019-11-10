@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of } from 'rxjs';
 
+import { TripService } from '../../services/trip.service';
 import { TripFactory } from '../../testing/factories';
 import { DriverDashboardComponent } from './driver-dashboard.component';
 import { TripCardComponent } from '../../components/trip-card/trip-card.component';
@@ -21,6 +22,11 @@ describe('DriverDashboardComponent', () => {
     });
   }
 
+  class MockTripService {
+    messages: Observable<any> = of();
+    connect(): void {}
+  }
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -31,7 +37,8 @@ describe('DriverDashboardComponent', () => {
         TripCardComponent
       ],
       providers: [
-        { provide: ActivatedRoute, useClass: MockActivatedRoute }
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+        { provide: TripService, useClass: MockTripService }
       ]
     });
     fixture = TestBed.createComponent(DriverDashboardComponent);

@@ -18,6 +18,7 @@
               id="pickUpAddress"
               class="form-control"
               type="text"
+              (blur)="onUpdate()"
               [(ngModel)]="trip.pick_up_address"
               name="pickUpAddress"
               required
@@ -29,11 +30,27 @@
               id="dropOffAddress"
               class="form-control"
               type="text"
+              (blur)="onUpdate()"
               [(ngModel)]="trip.drop_off_address"
               name="dropOffAddress"
               required
             >
           </div>
+          <button
+            class="btn btn-primary btn-block mb-3"
+            type="button"
+            (click)="onUpdate()"
+            [disabled]="!requestForm.form.valid"
+          >Update Map</button>
+          <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+            <agm-marker
+                *ngFor="let marker of markers"
+                [latitude]="marker.lat"
+                [longitude]="marker.lng"
+                [label]="marker.label"
+            >
+            </agm-marker>
+          </agm-map>
           <button
             class="btn btn-primary btn-block"
             type="submit"

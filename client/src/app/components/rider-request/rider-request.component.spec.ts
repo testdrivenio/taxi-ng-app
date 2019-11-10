@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { AgmCoreModule } from '@agm/core';
+
+import { GoogleMapsService } from '../../services/google-maps.service';
 import { TripService } from '../../services/trip.service';
 import { TripFactory } from '../../testing/factories';
 import { RiderRequestComponent } from './rider-request.component';
@@ -14,15 +17,20 @@ describe('RiderRequestComponent', () => {
   let tripService: TripService;
   let router: Router;
 
+  class MockGoogleMapsService {}
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
         HttpClientTestingModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([]),
+        AgmCoreModule.forRoot({})
       ],
       declarations: [ RiderRequestComponent ],
-      providers: [ TripService ]
+      providers: [
+        { provide: GoogleMapsService, useClass: MockGoogleMapsService }
+      ]
     });
     fixture = TestBed.createComponent(RiderRequestComponent);
     component = fixture.componentInstance;
