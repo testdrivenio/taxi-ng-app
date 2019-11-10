@@ -9,6 +9,8 @@ import { TripFactory } from '../../testing/factories';
 import { DriverDashboardComponent } from './driver-dashboard.component';
 import { TripCardComponent } from '../../components/trip-card/trip-card.component';
 
+import { ToastrModule } from 'ng6-toastr-notifications';
+
 describe('DriverDashboardComponent', () => {
   let component: DriverDashboardComponent;
   let fixture: ComponentFixture<DriverDashboardComponent>;
@@ -30,7 +32,8 @@ describe('DriverDashboardComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes([]),
+        ToastrModule.forRoot()
       ],
       declarations: [
         DriverDashboardComponent,
