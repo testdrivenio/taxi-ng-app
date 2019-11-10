@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-lg-12">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a [routerLink]="['/rider']">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Trip</li>
+      </ol>
+    </nav>
+    <div class="card">
+      <h4 class="card-header">Trip</h4>
+      <div class="card-body">
+        <ul class="list-unstyled mb-0">
+          <li class="media">
+            <img
+              class="mr-3 rounded-circle"
+              [src]="trip.driver.photo"
+              width="80"
+              height="80"
+            >
+            <div class="media-body">
+              <h5 class="mt-0 mb-1">{{ trip.driver.username }}</h5>
+              {{ trip.pick_up_address }} to {{ trip.drop_off_address }}<br>
+              {{ trip.status }}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

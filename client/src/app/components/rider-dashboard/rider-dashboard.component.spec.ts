@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { ActivatedRoute, Data } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of } from 'rxjs';
 
@@ -21,6 +22,9 @@ describe('RiderDashboardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        RouterTestingModule.withRoutes([])
+      ],
       declarations: [ RiderDashboardComponent ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute }

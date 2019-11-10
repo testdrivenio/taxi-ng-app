@@ -4,7 +4,11 @@
   <ng-template #thenBlock>
     <div class="card-body">
       <ul class="list-unstyled">
-        <li class="media mb-3" *ngFor="let trip of currentTrips">
+        <li
+          class="media mb-3"
+          *ngFor="let trip of currentTrips"
+          [routerLink]="['.', trip.id]"
+        >
           <img
             class="mr-3 rounded-circle"
             [src]="trip.driver.photo"
@@ -32,7 +36,11 @@
   <ng-template #thenBlock>
     <div class="card-body">
       <ul class="list-unstyled">
-        <li class="media mb-3" *ngFor="let trip of completedTrips">
+        <li
+          class="media mb-3"
+          *ngFor="let trip of completedTrips"
+          [routerLink]="['.', trip.id]"
+        >
           <img
             class="mr-3 rounded-circle"
             [src]="trip.driver.photo"

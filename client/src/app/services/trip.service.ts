@@ -69,4 +69,10 @@ export class TripService {
     };
     this.webSocket.next(message);
   }
+
+  getTrip(id: string): Observable<Trip> {
+    return this.http.get<Trip>(`/api/trip/${id}/`).pipe(
+      map(trip => Trip.create(trip))
+    );
+  }
 }
