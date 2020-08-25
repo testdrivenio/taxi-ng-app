@@ -1,5 +1,5 @@
 .DS_Store
 .dockerignore
-.gitignore
-README.md
 node_modules
+README.md
+.gitignore

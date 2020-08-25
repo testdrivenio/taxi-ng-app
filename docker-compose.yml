@@ -1,56 +1,66 @@
-version: '3.7'
+version: '3.8'
 
 services:
+  taxi-redis:
+    container_name: taxi-redis
+    image: redis:6.0.6-alpine
+
+  taxi-database:
+    container_name: taxi-database
+    environment:
+      - POSTGRES_PASSWORD=taxi
+    image: postgres:12.4
+    ports:
+      - 5433:5432
+    volumes:
+      - taxi-database:/var/lib/postgresql/data
 
   taxi-server:
     build:
       context: ./server
-    command: python manage.py runserver 0.0.0.0:8000
+    command: daphne --bind 0.0.0.0 --port 8000 taxi.asgi:application
     container_name: taxi-server
     depends_on:
       - taxi-redis
       - taxi-database
-    environment:
-    environment:
-      - PGDATABASE=taxi
-      - PGUSER=taxi
-      - PGPASSWORD=taxi
-      - PGHOST=taxi-database
-      - REDIS_URL=redis://taxi-redis:6379/0
+    env_file:
+      - ./server/.env
     ports:
-      - 8003:8000
+      - 8001:8000
     volumes:
-    - ./server:/usr/src/app
-
-  taxi-redis:
-    container_name: taxi-redis
-    image: redis:6-alpine
-
-  taxi-database:
-    container_name: taxi-database
-    image: postgres:12-alpine
-    environment:
-      - POSTGRES_USER=taxi
-      - POSTGRES_PASSWORD=taxi
-    expose:
-      - 5432
-    volumes:
-      - taxi-database:/var/lib/postgresql/data
+      - ./server:/usr/src/app
+      - media:/usr/src/app/media
+      - static:/usr/src/app/static
 
   taxi-client:
     build:
       context: ./client
-    command: ng serve
+    command: ng serve --host 0.0.0.0
     container_name: taxi-client
     depends_on:
       - taxi-server
+    environment:
+      - CHROME_BIN=chromium-browser
     ports:
       - 4201:4200
-    stdin_open: true
     volumes:
       - ./client:/usr/src/app
-    environment:
-      - CHOKIDAR_USEPOLLING=true
+
+  nginx:
+    build:
+      context: ./nginx
+    container_name: taxi-nginx
+    depends_on:
+      - taxi-server
+      - taxi-client
+    ports:
+      - 8080:80
+    restart: always
+    volumes:
+      - media:/usr/src/app/media
+      - static:/usr/src/app/static
 
 volumes:
   taxi-database:
+  media:
+  static:

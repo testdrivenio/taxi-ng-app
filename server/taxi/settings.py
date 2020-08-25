@@ -27,7 +27,7 @@ SECRET_KEY = 'zh*k*a0f#w$wdhy^8^pnly1=w8mz++r0i#u$3_i7q#8a^x#ea$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -132,6 +132,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, '../static')
 
 REDIS_URL = os.getenv('REDIS_URL', 'redis://localhost:6379')
 
