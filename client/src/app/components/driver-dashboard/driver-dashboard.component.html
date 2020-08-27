@@ -12,6 +12,11 @@
     ></app-trip-card>
     <app-trip-card
       class="card mb-3"
+      [title]="'Requested Trips'"
+      [trips]="requestedTrips"
+    ></app-trip-card>
+    <app-trip-card
+      class="card mb-3"
       [title]="'Recent Trips'"
       [trips]="completedTrips"
     ></app-trip-card>

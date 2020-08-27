@@ -8,15 +8,15 @@ import { ToastrModule } from 'ng6-toastr-notifications';
 
 import { TripService } from '../../services/trip.service';
 import { createFakeTrip } from '../../testing/factories';
-import { RiderDashboardComponent } from './rider-dashboard.component';
+import { DriverDashboardComponent } from './driver-dashboard.component';
 import { TripCardComponent } from '../../components/trip-card/trip-card.component';
 
-describe('RiderDashboardComponent', () => {
-  let component: RiderDashboardComponent;
-  let fixture: ComponentFixture<RiderDashboardComponent>;
+describe('DriverDashboardComponent', () => {
+  let component: DriverDashboardComponent;
+  let fixture: ComponentFixture<DriverDashboardComponent>;
   const trip1 = createFakeTrip({ driver: null });
   const trip2 = createFakeTrip({ status: 'COMPLETED' });
-  const trip3 = createFakeTrip();
+  const trip3 = createFakeTrip({ status: 'IN_PROGRESS' });
 
   class MockActivatedRoute {
     data: Observable<Data> = of({
@@ -36,7 +36,7 @@ describe('RiderDashboardComponent', () => {
         ToastrModule.forRoot()
       ],
       declarations: [
-        RiderDashboardComponent,
+        DriverDashboardComponent,
         TripCardComponent
       ],
       providers: [
@@ -44,7 +44,7 @@ describe('RiderDashboardComponent', () => {
         { provide: TripService, useClass: MockTripService }
       ]
     });
-    fixture = TestBed.createComponent(RiderDashboardComponent);
+    fixture = TestBed.createComponent(DriverDashboardComponent);
     component = fixture.componentInstance;
   });
 
@@ -52,6 +52,14 @@ describe('RiderDashboardComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.currentTrips).toEqual([trip3]);
+    });
+    component.ngOnInit();
+  }));
+
+  it('should get requested trips', async(() => {
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(component.requestedTrips).toEqual([trip1]);
     });
     component.ngOnInit();
   }));

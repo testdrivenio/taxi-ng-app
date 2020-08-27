@@ -59,6 +59,14 @@ export class AuthService {
     return false;
   }
 
+  static isDriver(): boolean {
+    const user = this.getUser();
+    if (user) {
+      return user.group === 'driver';
+    }
+    return false;
+  }
+
   private static parseUserFromAccessToken(accessToken: string): User {
     const [, payload, ] = accessToken.split('.');
     const decoded = window.atob(payload);

@@ -8,11 +8,11 @@ import { ToastrManager } from 'ng6-toastr-notifications';
 import { Trip, TripService, createTrip } from '../../services/trip.service';
 
 @Component({
-  selector: 'app-rider-dashboard',
-  templateUrl: './rider-dashboard.component.html',
-  styleUrls: ['./rider-dashboard.component.css']
+  selector: 'app-driver-dashboard',
+  templateUrl: './driver-dashboard.component.html',
+  styleUrls: ['./driver-dashboard.component.css']
 })
-export class RiderDashboardComponent implements OnInit, OnDestroy {
+export class DriverDashboardComponent implements OnInit, OnDestroy {
   messages: Subscription;
   trips: Trip[];
 
@@ -23,15 +23,17 @@ export class RiderDashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   get currentTrips(): Trip[] {
-    return this.trips.filter(trip => {
+    return this.trips.filter((trip: Trip) => {
       return trip.driver !== null && trip.status !== 'COMPLETED';
     });
   }
 
+  get requestedTrips(): Trip[] {
+    return this.trips.filter((trip: Trip) => trip.status === 'REQUESTED');
+  }
+
   get completedTrips(): Trip[] {
-    return this.trips.filter(trip => {
-      return trip.status === 'COMPLETED';
-    });
+    return this.trips.filter((trip: Trip) => trip.status === 'COMPLETED');
   }
 
   ngOnInit(): void {
@@ -50,12 +52,8 @@ export class RiderDashboardComponent implements OnInit, OnDestroy {
   }
 
   updateToast(trip: Trip): void {
-    if (trip.status === 'STARTED') {
-      this.toastr.infoToastr(`Driver ${trip.driver.username} is coming to pick you up.`);
-    } else if (trip.status === 'IN_PROGRESS') {
-      this.toastr.infoToastr(`Driver ${trip.driver.username} is headed to your destination.`);
-    } else if (trip.status === 'COMPLETED') {
-      this.toastr.infoToastr(`Driver ${trip.driver.username} has dropped you off.`);
+    if (trip.driver === null) {
+      this.toastr.infoToastr(`Rider ${trip.rider.username} has requested a trip.`);
     }
   }
 

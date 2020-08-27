@@ -1,6 +1,6 @@
 import * as faker from 'faker';
 
-import { Token, User, createUser } from '../services/auth.service';
+import { AuthService, Token, User, createUser } from '../services/auth.service';
 import { Trip } from '../services/trip.service';
 
 export const createFakeUser = (data?: any): User => {
@@ -25,6 +25,9 @@ export const createFakeToken = (data?: any): Token => {
 };
 
 export const createFakeTrip = (data?: any): Trip => {
+  const driver = createFakeUser({ group: 'driver' });
+  const rider = createFakeUser();
+  const otherUser = AuthService.isRider() ? driver : rider;
   return Object.assign({
     id: faker.random.uuid(),
     created: faker.date.past(),
@@ -32,7 +35,8 @@ export const createFakeTrip = (data?: any): Trip => {
     pick_up_address: faker.address.streetAddress(),
     drop_off_address: faker.address.streetAddress(),
     status: 'REQUESTED',
-    driver: createFakeUser({ group: 'driver' }),
-    rider: createFakeUser()
+    driver,
+    rider,
+    otherUser
   }, data);
 };
