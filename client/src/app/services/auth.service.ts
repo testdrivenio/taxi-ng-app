@@ -1,52 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
-export class User {
-  constructor(
-    public id?: number,
-    public username?: string,
-    public first_name?: string,
-    public last_name?: string,
-    public group?: string,
-    public photo?: any
-  ) {}
+export interface User {
+  id: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  group: string;
+  photo: string;
+}
 
-  static create(data: any): User {
-    return new User(
-      data.id,
-      data.username,
-      data.first_name,
-      data.last_name,
-      data.group,
-      data.photo
-    );
-  }
+export const createUser = (data: any): User => {
+  return {
+    id: data.id,
+    username: data.username,
+    first_name: data.first_name,
+    last_name: data.last_name,
+    group: data.group,
+    photo: data.photo,
+  };
+};
 
-  static getUser(): User {
-    const userData = localStorage.getItem('taxi.user');
-    if (userData) {
-      return User.create(JSON.parse(userData));
-    }
-    return null;
-  }
-
-  static isRider(): boolean {
-    const user = User.getUser();
-    if (user === null) {
-      return false;
-    }
-    return user.group === 'rider';
-  }
-
-  static isDriver(): boolean {
-    const user = User.getUser();
-    if (user === null) {
-      return false;
-    }
-    return user.group === 'driver';
-  }
+export interface Token {
+  access: string;
+  refresh: string;
 }
 
 @Injectable({
@@ -54,6 +34,44 @@ export class User {
 })
 export class AuthService {
   constructor(private http: HttpClient) {}
+
+  static getUser(): User {
+    const accessToken = this.getAccessToken();
+    if (accessToken) {
+      return this.parseUserFromAccessToken(accessToken);
+    }
+    return undefined;
+  }
+
+  static getAccessToken(): string {
+    const token = JSON.parse(window.localStorage.getItem('taxi.auth'));
+    if (token) {
+      return token.access;
+    }
+    return undefined;
+  }
+
+  static isRider(): boolean {
+    const user = this.getUser();
+    if (user) {
+      return user.group === 'rider';
+    }
+    return false;
+  }
+
+  static isDriver(): boolean {
+    const user = this.getUser();
+    if (user) {
+      return user.group === 'driver';
+    }
+    return false;
+  }
+
+  private static parseUserFromAccessToken(accessToken: string): User {
+    const [, payload, ] = accessToken.split('.');
+    const decoded = window.atob(payload);
+    return JSON.parse(decoded);
+  }
 
   signUp(
     username: string,
@@ -72,20 +90,17 @@ export class AuthService {
     formData.append('password2', password);
     formData.append('group', group);
     formData.append('photo', photo);
-    return this.http.request<User>('POST', url, {body: formData});
+    return this.http.request<User>('POST', url, { body: formData });
   }
 
-  logIn(username: string, password: string): Observable<User> {
+  logIn(username: string, password: string): Observable<Token> {
     const url = '/api/log_in/';
-    return this.http.post<User>(url, {username, password}).pipe(
-      tap(user => localStorage.setItem('taxi.user', JSON.stringify(user)))
+    return this.http.post<Token>(url, { username, password }).pipe(
+      tap(token => localStorage.setItem('taxi.auth', JSON.stringify(token)))
     );
   }
 
-  logOut(): Observable<any> {
-    const url = '/api/log_out/';
-    return this.http.post(url, null).pipe(
-      finalize(() => localStorage.removeItem('taxi.user'))
-    );
+  logOut(): void {
+    localStorage.removeItem('taxi.auth');
   }
 }

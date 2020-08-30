@@ -7,7 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service';
-import { UserFactory } from '../../testing/factories';
+import { createFakeUser } from '../../testing/factories';
 import { SignUpComponent } from './sign-up.component';
 
 describe('SignUpComponent', () => {
@@ -23,8 +23,12 @@ describe('SignUpComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ SignUpComponent ],
-      providers: [ AuthService ]
+      declarations: [
+        SignUpComponent
+      ],
+      providers: [
+        AuthService
+      ]
     });
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
@@ -34,8 +38,8 @@ describe('SignUpComponent', () => {
 
   it('should allow a user to sign up for an account', () => {
     const spy = spyOn(router, 'navigateByUrl');
-    const user = UserFactory.create();
-    const photo = new File(['photo'], user.photo, {type: 'image/jpeg'});
+    const user = createFakeUser();
+    const photo = new File(['photo'], user.photo, { type: 'image/jpeg' });
     component.user = {
       username: user.username,
       firstName: user.first_name,
@@ -49,5 +53,4 @@ describe('SignUpComponent', () => {
     request.flush(user);
     expect(spy).toHaveBeenCalledWith('/log-in');
   });
-
 });

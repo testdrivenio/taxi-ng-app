@@ -21,15 +21,18 @@ class UserData {
 })
 export class SignUpComponent {
   user: UserData = new UserData();
+
   constructor(
     private router: Router,
     private authService: AuthService
   ) {}
+
   onChange(event): void {
     if (event.target.files && event.target.files.length > 0) {
       this.user.photo = event.target.files[0];
     }
   }
+
   onSubmit(): void {
     this.authService.signUp(
       this.user.username,

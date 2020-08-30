@@ -15,8 +15,7 @@ describe('DriverComponent', () => {
       declarations: [
         DriverComponent
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

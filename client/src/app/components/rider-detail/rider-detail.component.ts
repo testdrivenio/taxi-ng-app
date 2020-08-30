@@ -15,7 +15,7 @@ export class RiderDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(
-      (data: {trip: Trip}) => this.trip = data.trip
+      (data: { trip: Trip }) => this.trip = data.trip
     );
   }
 }

@@ -4,13 +4,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of } from 'rxjs';
 
-import { TripFactory } from '../../testing/factories';
+import { createFakeTrip } from '../../testing/factories';
 import { RiderDetailComponent } from './rider-detail.component';
 
 describe('RiderDetailComponent', () => {
   let component: RiderDetailComponent;
   let fixture: ComponentFixture<RiderDetailComponent>;
-  const trip = TripFactory.create();
+  const trip = createFakeTrip();
 
   class MockActivatedRoute {
     data: Observable<Data> = of({
@@ -23,7 +23,9 @@ describe('RiderDetailComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ RiderDetailComponent ],
+      declarations: [
+        RiderDetailComponent
+      ],
       providers: [
         { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]

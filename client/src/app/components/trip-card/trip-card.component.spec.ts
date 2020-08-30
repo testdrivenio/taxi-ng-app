@@ -12,9 +12,10 @@ describe('TripCardComponent', () => {
       imports: [
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ TripCardComponent ]
-    })
-    .compileComponents();
+      declarations: [
+        TripCardComponent
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { User } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Trip, TripService } from '../../services/trip.service';
 
 @Component({
@@ -18,11 +18,11 @@ export class DriverDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe((data: {trip: Trip}) => this.trip = data.trip);
+    this.route.data.subscribe((data: { trip: Trip }) => this.trip = data.trip);
   }
 
   updateTripStatus(status: string): void {
-    this.trip.driver = User.getUser();
+    this.trip.driver = AuthService.getUser();
     this.trip.status = status;
     this.tripService.updateTrip(this.trip);
   }

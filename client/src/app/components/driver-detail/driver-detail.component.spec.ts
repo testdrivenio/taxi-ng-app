@@ -1,4 +1,4 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing'; // new
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { ActivatedRoute, Data } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -6,14 +6,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { TripService } from '../../services/trip.service';
-import { TripFactory } from '../../testing/factories';
+import { createFakeTrip } from '../../testing/factories';
 import { DriverDetailComponent } from './driver-detail.component';
 
 describe('DriverDetailComponent', () => {
   let component: DriverDetailComponent;
   let fixture: ComponentFixture<DriverDetailComponent>;
   let tripService: TripService;
-  const trip = TripFactory.create();
+  const trip = createFakeTrip();
 
   class MockActivatedRoute {
     data: Observable<Data> = of({
@@ -48,7 +48,7 @@ describe('DriverDetailComponent', () => {
 
   it('should update trip status', () => {
     const spyUpdateTrip = spyOn(tripService, 'updateTrip');
-    component.trip = TripFactory.create();
+    component.trip = createFakeTrip();
     component.updateTripStatus('STARTED');
     expect(spyUpdateTrip).toHaveBeenCalledWith(component.trip);
   });

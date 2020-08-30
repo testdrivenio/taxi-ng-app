@@ -1,10 +1,10 @@
-import {
-  HttpClientTestingModule, HttpTestingController
-} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import {
+  HttpTestingController, HttpClientTestingModule
+} from '@angular/common/http/testing';
 
-import { AuthService, User } from './auth.service';
-import { UserFactory } from '../testing/factories';
+import { AuthService } from './auth.service';
+import { createFakeToken, createFakeUser } from '../testing/factories';
 
 describe('Authentication using a service', () => {
   let authService: AuthService;
@@ -12,8 +12,12 @@ describe('Authentication using a service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule ],
-      providers: [ AuthService ]
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        AuthService
+      ]
     });
     authService = TestBed.get(AuthService);
     httpMock = TestBed.get(HttpTestingController);
@@ -21,8 +25,8 @@ describe('Authentication using a service', () => {
 
   it('should allow a user to sign up for a new account', () => {
     // Set up the data.
-    const userData = UserFactory.create();
-    const photo: File = new File(['photo'], userData.photo, {type: 'image/jpeg'});
+    const userData = createFakeUser();
+    const photo = new File(['photo'], userData.photo, { type: 'image/jpeg' });
 
     // Execute the function under test.
     authService.signUp(
@@ -37,48 +41,52 @@ describe('Authentication using a service', () => {
     });
 
     const request = httpMock.expectOne('/api/sign_up/');
-      request.flush(userData);
+    request.flush(userData);
   });
 
   it('should allow a user to log in to an existing account', () => {
     // Set up the data.
-    const userData = UserFactory.create();
+    const userData = createFakeUser();
+    const tokenData = createFakeToken(userData);
+
     // A successful login should write data to local storage.
     localStorage.clear();
+
     // Execute the function under test.
     authService.logIn(
       userData.username, 'pAssw0rd!'
     ).subscribe(user => {
-      expect(user).toBe(userData);
+      expect(user).toBe(tokenData);
     });
     const request = httpMock.expectOne('/api/log_in/');
-    request.flush(userData);
+    request.flush(tokenData);
+
     // Confirm that the expected data was written to local storage.
-    expect(localStorage.getItem('taxi.user')).toBe(JSON.stringify(userData));
+    expect(localStorage.getItem('taxi.auth')).toBe(JSON.stringify(tokenData));
   });
 
   it('should allow a user to log out', () => {
     // Set up the data.
-    const userData = {};
+    const tokenData = {};
+
     // A successful logout should delete local storage data.
-    localStorage.setItem('taxi.user', JSON.stringify({}));
+    localStorage.setItem('taxi.auth', JSON.stringify(tokenData));
+
     // Execute the function under test.
-    authService.logOut().subscribe(user => {
-      expect(user).toEqual(userData);
-    });
-    const request = httpMock.expectOne('/api/log_out/');
-    request.flush(userData);
+    authService.logOut();
+
     // Confirm that the local storage data was deleted.
-    expect(localStorage.getItem('taxi.user')).toBeNull();
+    expect(localStorage.getItem('taxi.auth')).toBeNull();
   });
 
   it('should determine whether a user is logged in', () => {
     localStorage.clear();
-    expect(User.getUser()).toBeFalsy();
-    localStorage.setItem('taxi.user', JSON.stringify(
-      UserFactory.create()
+    expect(AuthService.getUser()).toBeFalsy();
+
+    localStorage.setItem('taxi.auth', JSON.stringify(
+      createFakeToken(createFakeUser())
     ));
-    expect(User.getUser()).toBeTruthy();
+    expect(AuthService.getUser()).toBeTruthy();
   });
 
   afterEach(() => {

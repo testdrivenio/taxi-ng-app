@@ -15,8 +15,7 @@ describe('RiderComponent', () => {
       declarations: [
         RiderComponent
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

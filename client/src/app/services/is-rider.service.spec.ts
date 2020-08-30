@@ -1,22 +1,24 @@
 import { IsRider } from './is-rider.service';
-import { UserFactory } from '../testing/factories';
+import { createFakeToken, createFakeUser } from '../testing/factories';
 
 describe('IsRider', () => {
+  let isRider;
+
+  beforeEach(() => {
+    isRider = new IsRider();
+  });
 
   it('should allow a rider to access a route', () => {
-    const isRider: IsRider = new IsRider();
-    localStorage.setItem('taxi.user', JSON.stringify(
-      UserFactory.create({group: 'rider'})
+    localStorage.setItem('taxi.auth', JSON.stringify(
+      createFakeToken(createFakeUser({ group: 'rider' }))
     ));
     expect(isRider.canActivate()).toBeTruthy();
   });
 
   it('should not allow a non-rider to access a route', () => {
-    const isRider: IsRider = new IsRider();
-    localStorage.setItem('taxi.user', JSON.stringify(
-      UserFactory.create({group: 'driver'})
+    localStorage.setItem('taxi.auth', JSON.stringify(
+      createFakeToken(createFakeUser({ group: 'driver' }))
     ));
     expect(isRider.canActivate()).toBeFalsy();
   });
-
 });

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { Trip } from '../../services/trip.service';
 
 @Component({
@@ -9,5 +10,6 @@ import { Trip } from '../../services/trip.service';
 export class TripCardComponent {
   @Input() title: string;
   @Input() trips: Trip[];
+
   constructor() {}
 }

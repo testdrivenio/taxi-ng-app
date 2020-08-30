@@ -5,10 +5,13 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgmCoreModule } from '@agm/core';
+import { ToastrModule } from 'ngx-toastr';
+
+import { environment } from '../../../environments/environment';
 
 import { GoogleMapsService } from '../../services/google-maps.service';
 import { TripService } from '../../services/trip.service';
-import { TripFactory } from '../../testing/factories';
+import { createFakeTrip } from '../../testing/factories';
 import { RiderRequestComponent } from './rider-request.component';
 
 describe('RiderRequestComponent', () => {
@@ -25,7 +28,10 @@ describe('RiderRequestComponent', () => {
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
-        AgmCoreModule.forRoot({})
+        AgmCoreModule.forRoot({
+          apiKey: environment.GOOGLE_API_KEY
+        }),
+        ToastrModule.forRoot()
       ],
       declarations: [ RiderRequestComponent ],
       providers: [
@@ -45,7 +51,7 @@ describe('RiderRequestComponent', () => {
   it('should handle form submit', () => {
     const spyCreateTrip = spyOn(tripService, 'createTrip');
     const spyNavigateByUrl = spyOn(router, 'navigateByUrl');
-    component.trip = TripFactory.create();
+    component.trip = createFakeTrip();
     component.onSubmit();
     expect(spyCreateTrip).toHaveBeenCalledWith(component.trip);
     expect(spyNavigateByUrl).toHaveBeenCalledWith('/rider');

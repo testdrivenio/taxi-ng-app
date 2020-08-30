@@ -4,11 +4,11 @@ import { Observable } from 'rxjs';
 
 import { Trip } from '../services/trip.service';
 import { TripDetailResolver } from './trip-detail.resolver';
-import { TripFactory } from '../testing/factories';
+import { createFakeTrip } from '../testing/factories';
 
 describe('TripDetailResolver', () => {
   it('should resolve a trip', () => {
-    const tripMock: Trip = TripFactory.create();
+    const tripMock: Trip = createFakeTrip();
     const tripServiceMock: any = {
       getTrip: (id: string): Observable<Trip> => {
         return new Observable<Trip>(observer => {

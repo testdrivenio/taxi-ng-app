@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthService } from '../../services/auth.service';
-import { UserFactory } from '../../testing/factories';
+import { createFakeToken, createFakeUser } from '../../testing/factories';
 import { LogInComponent } from '../log-in/log-in.component';
 
 describe('LogInComponent', () => {
@@ -23,8 +23,12 @@ describe('LogInComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([])
       ],
-      declarations: [ LogInComponent ],
-      providers: [ AuthService ]
+      declarations: [
+        LogInComponent
+      ],
+      providers: [
+        AuthService
+      ]
     });
     fixture = TestBed.createComponent(LogInComponent);
     component = fixture.componentInstance;
@@ -34,12 +38,13 @@ describe('LogInComponent', () => {
 
   it('should allow a user to log into an existing account', () => {
     const spy = spyOn(router, 'navigateByUrl');
-    const user = UserFactory.create();
-    component.user = {username: user.username, password: 'pAssw0rd!'};
+    const user = createFakeUser();
+    const token = createFakeToken(user);
+    component.user = { username: user.username, password: 'pAssw0rd!' };
     component.onSubmit();
     const request = httpMock.expectOne('/api/log_in/');
-    request.flush(user);
-    expect(localStorage.getItem('taxi.user')).toEqual(JSON.stringify(user));
+    request.flush(token);
+    expect(localStorage.getItem('taxi.auth')).toEqual(JSON.stringify(token));
     expect(spy).toHaveBeenCalledWith('');
   });
 

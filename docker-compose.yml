@@ -1,25 +1,36 @@
-version: '3.7'
+version: '3.8'
 
 services:
-
   taxi-redis:
     container_name: taxi-redis
-    image: redis:5.0.3-alpine
+    image: redis:6.0.6-alpine
+
+  taxi-database:
+    container_name: taxi-database
+    environment:
+      - POSTGRES_PASSWORD=taxi
+    image: postgres:12.4
+    ports:
+      - 5433:5432
+    volumes:
+      - taxi-database:/var/lib/postgresql/data
 
   taxi-server:
     build:
       context: ./server
-    volumes:
-      - media:/usr/src/app/media
-      - static:/usr/src/app/static
     command: daphne --bind 0.0.0.0 --port 8000 taxi.asgi:application
     container_name: taxi-server
     depends_on:
       - taxi-redis
-    environment:
-      - REDIS_URL=redis://taxi-redis:6379/0
+      - taxi-database
+    env_file:
+      - ./server/.env
     ports:
       - 8001:8000
+    volumes:
+      - ./server:/usr/src/app
+      - media:/usr/src/app/media
+      - static:/usr/src/app/static
 
   taxi-client:
     build:
@@ -32,6 +43,8 @@ services:
       - CHROME_BIN=chromium-browser
     ports:
       - 4201:4200
+    volumes:
+      - ./client:/usr/src/app
 
   nginx:
     build:
@@ -48,5 +61,6 @@ services:
       - static:/usr/src/app/static
 
 volumes:
+  taxi-database:
   media:
   static:

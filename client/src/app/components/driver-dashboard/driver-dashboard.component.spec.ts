@@ -4,19 +4,19 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of } from 'rxjs';
 
+import { ToastrModule } from 'ngx-toastr';
+
 import { TripService } from '../../services/trip.service';
-import { TripFactory } from '../../testing/factories';
+import { createFakeTrip } from '../../testing/factories';
 import { DriverDashboardComponent } from './driver-dashboard.component';
 import { TripCardComponent } from '../../components/trip-card/trip-card.component';
-
-import { ToastrModule } from 'ng6-toastr-notifications';
 
 describe('DriverDashboardComponent', () => {
   let component: DriverDashboardComponent;
   let fixture: ComponentFixture<DriverDashboardComponent>;
-  const trip1 = TripFactory.create({driver: null});
-  const trip2 = TripFactory.create({status: 'COMPLETED'});
-  const trip3 = TripFactory.create({status: 'IN_PROGRESS'});
+  const trip1 = createFakeTrip({ driver: null });
+  const trip2 = createFakeTrip({ status: 'COMPLETED' });
+  const trip3 = createFakeTrip({ status: 'IN_PROGRESS' });
 
   class MockActivatedRoute {
     data: Observable<Data> = of({
