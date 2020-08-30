@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { ToastrManager } from 'ng6-toastr-notifications';
+import { ToastrService } from 'ngx-toastr';
 
 import { Trip, TripService, createTrip } from '../../services/trip.service';
 
@@ -17,7 +17,7 @@ export class RiderDashboardComponent implements OnInit, OnDestroy {
   trips: Trip[];
 
   constructor(
-    private toastr: ToastrManager,
+    private toastr: ToastrService,
     private route: ActivatedRoute,
     private tripService: TripService
   ) {}
@@ -51,11 +51,11 @@ export class RiderDashboardComponent implements OnInit, OnDestroy {
 
   updateToast(trip: Trip): void {
     if (trip.status === 'STARTED') {
-      this.toastr.infoToastr(`Driver ${trip.driver.username} is coming to pick you up.`);
+      this.toastr.info(`Driver ${trip.driver.username} is coming to pick you up.`);
     } else if (trip.status === 'IN_PROGRESS') {
-      this.toastr.infoToastr(`Driver ${trip.driver.username} is headed to your destination.`);
+      this.toastr.info(`Driver ${trip.driver.username} is headed to your destination.`);
     } else if (trip.status === 'COMPLETED') {
-      this.toastr.infoToastr(`Driver ${trip.driver.username} has dropped you off.`);
+      this.toastr.info(`Driver ${trip.driver.username} has dropped you off.`);
     }
   }
 

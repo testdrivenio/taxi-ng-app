@@ -11,14 +11,14 @@
     <div class="card">
       <div class="card-header">Request Trip</div>
       <div class="card-body">
-        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-        <agm-marker
-            *ngFor="let marker of markers"
-            [latitude]="marker.lat"
-            [longitude]="marker.lng"
-            [label]="marker.label"
-        >
-        </agm-marker>
+        <agm-map appMap [origin]="origin" [destination]="destination">
+          <agm-marker
+              *ngFor="let marker of markers"
+              [label]="marker.label"
+              [latitude]="marker.lat"
+              [longitude]="marker.lng"
+          >
+          </agm-marker>
         </agm-map>
         <form class="mt-3" #requestForm="ngForm" novalidate (ngSubmit)="onSubmit()">
           <div class="form-group">
@@ -27,7 +27,6 @@
               id="pickUpAddress"
               class="form-control"
               type="text"
-              (blur)="onUpdate()"
               [(ngModel)]="trip.pick_up_address"
               name="pickUpAddress"
               required
@@ -39,7 +38,6 @@
               id="dropOffAddress"
               class="form-control"
               type="text"
-              (blur)="onUpdate()"
               [(ngModel)]="trip.drop_off_address"
               name="dropOffAddress"
               required

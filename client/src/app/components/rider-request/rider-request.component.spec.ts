@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgmCoreModule } from '@agm/core';
+import { ToastrModule } from 'ngx-toastr';
 
 import { environment } from '../../../environments/environment';
 
@@ -29,7 +30,8 @@ describe('RiderRequestComponent', () => {
         RouterTestingModule.withRoutes([]),
         AgmCoreModule.forRoot({
           apiKey: environment.GOOGLE_API_KEY
-        })
+        }),
+        ToastrModule.forRoot()
       ],
       declarations: [ RiderRequestComponent ],
       providers: [

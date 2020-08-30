@@ -25,6 +25,7 @@
             ],
             "styles": [
               "node_modules/bootswatch/dist/lumen/bootstrap.min.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
             "scripts": [
@@ -94,6 +95,7 @@
             ],
             "styles": [
               "node_modules/bootswatch/dist/lumen/bootstrap.min.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
             "scripts": [

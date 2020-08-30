@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { GoogleMapsService } from '../../services/google-maps.service';
+import { ToastrService } from 'ngx-toastr';
+
+import { GoogleMapsService, LatLng, Route } from '../../services/google-maps.service';
 
 import { AuthService } from '../../services/auth.service';
 import { Trip, TripService, createTrip } from '../../services/trip.service';
@@ -19,25 +21,22 @@ interface Marker {
 })
 export class RiderRequestComponent implements OnInit {
   trip: Trip = createTrip({});
-  lat = 0;
-  lng = 0;
-  zoom = 13;
   markers: Marker[];
+  origin: LatLng;
+  destination: LatLng;
 
   constructor(
     private router: Router,
     private googleMapsService: GoogleMapsService,
+    private toastr: ToastrService,
     private tripService: TripService
   ) {}
 
   ngOnInit(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: Position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.markers = [
-          { lat: this.lat, lng: this.lng }
-        ];
+        this.origin = { lat: position.coords.latitude, lng: position.coords.longitude };
+        this.markers = [this.origin];
       });
     }
   }
@@ -49,27 +48,23 @@ export class RiderRequestComponent implements OnInit {
   }
 
   onUpdate(): void {
-    if (
-      !!this.trip.pick_up_address &&
-      !!this.trip.drop_off_address
-    ) {
+    const { pick_up_address, drop_off_address } = this.trip;
+    if (pick_up_address && drop_off_address) {
+      this.toastr.info('Updating map...');
       this.googleMapsService.directions(
-        this.trip.pick_up_address,
-        this.trip.drop_off_address
-      ).subscribe((data: any) => {
-        const route: any = data.routes[0];
-        const leg: any = route.legs[0];
-        this.lat = leg.start_location.lat();
-        this.lng = leg.start_location.lng();
+        pick_up_address, drop_off_address
+      ).subscribe((route: Route) => {
+        this.origin = route.origin;
+        this.destination = route.destination;
         this.markers = [
           {
-            lat: leg.start_location.lat(),
-            lng: leg.start_location.lng(),
+            lat: route.origin.lat,
+            lng: route.origin.lng,
             label: 'A'
           },
           {
-            lat: leg.end_location.lat(),
-            lng: leg.end_location.lng(),
+            lat: route.destination.lat,
+            lng: route.destination.lng,
             label: 'B'
           }
         ];

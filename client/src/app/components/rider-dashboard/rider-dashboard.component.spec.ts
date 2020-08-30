@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { Observable, of } from 'rxjs';
 
-import { ToastrModule } from 'ng6-toastr-notifications';
+import { ToastrModule } from 'ngx-toastr';
 
 import { TripService } from '../../services/trip.service';
 import { createFakeTrip } from '../../testing/factories';
