@@ -26,7 +26,7 @@ export class GoogleMapsService {
     return Observable.create(observer => {
       directionsService.route(request, (result, status) => {
         if (status === 'OK') {
-          const route: any = result.data.routes[0];
+          const route: any = result.routes[0];
           const leg: any = route.legs[0];
           observer.next({
             origin: {
