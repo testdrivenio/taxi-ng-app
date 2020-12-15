@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Data } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -38,7 +38,7 @@ describe('DriverDetailComponent', () => {
     tripService = TestBed.get(TripService);
   });
 
-  it('should update data on initialization', async(() => {
+  it('should update data on initialization', waitForAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.trip).toEqual(trip);
