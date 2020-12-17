@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Data } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -48,7 +48,7 @@ describe('RiderDashboardComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should get current trips', async(() => {
+  it('should get current trips', waitForAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.currentTrips).toEqual([trip3]);
@@ -56,7 +56,7 @@ describe('RiderDashboardComponent', () => {
     component.ngOnInit();
   }));
 
-  it('should get completed trips', async(() => {
+  it('should get completed trips', waitForAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.completedTrips).toEqual([trip2]);

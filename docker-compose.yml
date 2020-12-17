@@ -3,13 +3,13 @@ version: '3.8'
 services:
   taxi-redis:
     container_name: taxi-redis
-    image: redis:6.0.6-alpine
+    image: redis:6.0.9-alpine
 
   taxi-database:
     container_name: taxi-database
     environment:
       - POSTGRES_PASSWORD=taxi
-    image: postgres:12.4
+    image: postgres:13.1
     ports:
       - 5433:5432
     volumes:

@@ -1,4 +1,4 @@
-FROM python:3.8.5-alpine
+FROM python:3.9.1-alpine
 
 RUN apk add --update --no-cache \
     g++ gcc libxslt-dev musl-dev python3-dev \

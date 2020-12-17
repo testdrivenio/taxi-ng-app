@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Data } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -34,7 +34,7 @@ describe('RiderDetailComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('should update data on initialization', async(() => {
+  it('should update data on initialization', waitForAsync(() => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(component.trip).toEqual(trip);
