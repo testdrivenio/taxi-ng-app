@@ -1,8 +1,8 @@
-FROM python:3.9.1-alpine
+FROM python:3.9.7-slim-buster
 
-RUN apk add --update --no-cache \
-    g++ gcc libxslt-dev musl-dev python3-dev \
-    libffi-dev openssl-dev jpeg-dev zlib-dev postgresql-dev
+RUN apt-get update \
+  && apt-get -y install gcc postgresql \
+  && apt-get clean
 
 ENV LIBRARY_PATH=/lib:/usr/lib
 

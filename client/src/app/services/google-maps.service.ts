@@ -1,43 +1,37 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map, shareReplay } from 'rxjs/operators';
 
-declare var google: any;
-
-export interface LatLng {
-  lat: number;
-  lng: number;
-}
-
-export interface Route {
-  origin: LatLng;
-  destination: LatLng;
-}
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GoogleMapsService {
-  constructor() {}
+  apiLoaded: Observable<boolean>;
 
-  directions(origin: string, destination: string): Observable<any> {
-    const request: any = { origin, destination, travelMode: 'DRIVING' };
+  constructor(private client: HttpClient) {
+    this.apiLoaded = client.jsonp(`https://maps.googleapis.com/maps/api/js?key=${environment.GOOGLE_API_KEY}`, 'callback')
+      .pipe(
+        map(() => true),
+        catchError(() => of(false)),
+        shareReplay(),
+      );
+  }
+
+  directions(origin: string, destination: string): Observable<google.maps.DirectionsResult> {
+    const request: google.maps.DirectionsRequest = {
+      origin,
+      destination,
+      travelMode: google.maps.TravelMode.DRIVING,
+    };
     const directionsService = new google.maps.DirectionsService();
-    return Observable.create(observer => {
+    return new Observable(observer => {
       directionsService.route(request, (result, status) => {
         if (status === 'OK') {
-          const route: any = result.routes[0];
-          const leg: any = route.legs[0];
-          observer.next({
-            origin: {
-              lat: leg.start_location.lat(),
-              lng: leg.start_location.lng()
-            },
-            destination: {
-              lat: leg.end_location.lat(),
-              lng: leg.end_location.lng()
-            }
-          });
+          observer.next(result);
         } else {
           observer.error('Enter two valid addresses.');
         }

@@ -1,13 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 
-import { AgmCoreModule } from '@agm/core';
 import { ToastrModule } from 'ngx-toastr';
-
-import { environment } from '../environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -25,7 +23,6 @@ import { DriverDashboardComponent } from './components/driver-dashboard/driver-d
 import { DriverDetailComponent } from './components/driver-detail/driver-detail.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { LogInComponent } from './components/log-in/log-in.component';
-import { MapDirective } from './directives/map.directive';
 import { RiderComponent } from './components/rider/rider.component';
 import { RiderDashboardComponent } from './components/rider-dashboard/rider-dashboard.component';
 import { RiderDetailComponent } from './components/rider-detail/rider-detail.component';
@@ -41,7 +38,6 @@ import { TripCardComponent } from './components/trip-card/trip-card.component';
     DriverDetailComponent,
     LandingComponent,
     LogInComponent,
-    MapDirective,
     RiderComponent,
     RiderDashboardComponent,
     RiderDetailComponent,
@@ -51,13 +47,12 @@ import { TripCardComponent } from './components/trip-card/trip-card.component';
   ],
   imports: [
     HttpClientModule,
+    HttpClientJsonpModule,
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.GOOGLE_API_KEY
-    }),
+    GoogleMapsModule,
     ToastrModule.forRoot()
   ],
   providers: [

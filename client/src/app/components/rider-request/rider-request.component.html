@@ -11,15 +11,15 @@
     <div class="card">
       <div class="card-header">Request Trip</div>
       <div class="card-body">
-        <agm-map appMap [origin]="origin" [destination]="destination">
-          <agm-marker
-              *ngFor="let marker of markers"
-              [label]="marker.label"
-              [latitude]="marker.lat"
-              [longitude]="marker.lng"
-          >
-          </agm-marker>
-        </agm-map>
+        <div *ngIf="apiLoaded | async">
+          <google-map height="300px" width="100%" [center]="origin">
+            <map-directions-renderer
+              *ngIf="(directions | async) as directions"
+              [directions]="directions"
+            >
+            </map-directions-renderer>
+          </google-map>
+        </div>
         <form class="mt-3" #requestForm="ngForm" novalidate (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="pickUpAddress">Pick up address:</label>

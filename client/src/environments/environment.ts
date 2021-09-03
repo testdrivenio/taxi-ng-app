@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  GOOGLE_API_KEY: 'AIzaSyCd4VOUsg-y6DsfFq0jpEXM50jjW3rV2x0'
+  GOOGLE_API_KEY: 'AIzaSyDdcEdcntAoR0lAkAfvZdGEFuN5nvvAgQM'
 };
 
 /*
@@ -14,4 +14,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

@@ -4,10 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgmCoreModule } from '@agm/core';
 import { ToastrModule } from 'ngx-toastr';
-
-import { environment } from '../../../environments/environment';
 
 import { GoogleMapsService } from '../../services/google-maps.service';
 import { TripService } from '../../services/trip.service';
@@ -28,9 +25,6 @@ describe('RiderRequestComponent', () => {
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
-        AgmCoreModule.forRoot({
-          apiKey: environment.GOOGLE_API_KEY
-        }),
         ToastrModule.forRoot()
       ],
       declarations: [ RiderRequestComponent ],
