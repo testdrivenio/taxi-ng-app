@@ -5,12 +5,12 @@ import { AuthService } from '../../services/auth.service';
 
 class UserData {
   constructor(
-    public username?: string,
-    public firstName?: string,
-    public lastName?: string,
-    public password?: string,
-    public group?: string,
-    public photo?: any
+    public username: string = '',
+    public firstName: string = '',
+    public lastName: string = '',
+    public password: string = '',
+    public group: string = '',
+    public photo: any = '',
   ) {}
 }
 
@@ -27,7 +27,7 @@ export class SignUpComponent {
     private authService: AuthService
   ) {}
 
-  onChange(event): void {
+  onChange(event: any): void {
     if (event.target.files && event.target.files.length > 0) {
       this.user.photo = event.target.files[0];
     }
@@ -41,10 +41,9 @@ export class SignUpComponent {
       this.user.password,
       this.user.group,
       this.user.photo
-    ).subscribe(() => {
-      this.router.navigateByUrl('/log-in');
-    }, (error) => {
-      console.error(error);
+    ).subscribe({
+      complete: () => this.router.navigateByUrl('/log-in'),
+      error: (error) => console.error(error),
     });
   }
 }

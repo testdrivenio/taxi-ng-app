@@ -20,7 +20,8 @@ describe('TripDetailResolver', () => {
     const tripDetailResolver: TripDetailResolver = new TripDetailResolver(tripServiceMock);
     const route: ActivatedRouteSnapshot = new ActivatedRouteSnapshot();
     route.params = {id: tripMock.id};
-    tripDetailResolver.resolve(route, null).subscribe(trip => {
+    const routerStateSnapshotMock = jasmine.createSpyObj('RouterStateSnapshot', ['toString']);
+    tripDetailResolver.resolve(route, routerStateSnapshotMock).subscribe(trip => {
       expect(trip).toBe(tripMock);
     });
   });

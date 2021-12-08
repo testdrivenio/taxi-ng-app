@@ -19,8 +19,8 @@ describe('Authentication using a service', () => {
         AuthService
       ]
     });
-    authService = TestBed.get(AuthService);
-    httpMock = TestBed.get(HttpTestingController);
+    authService = TestBed.inject(AuthService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should allow a user to sign up for a new account', () => {

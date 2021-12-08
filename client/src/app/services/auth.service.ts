@@ -5,37 +5,30 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 export interface User {
-  id: number;
-  username: string;
-  first_name: string;
-  last_name: string;
-  group: string;
-  photo: string;
+  readonly id: string;
+  readonly username: string;
+  readonly first_name: string;
+  readonly last_name: string;
+  readonly group: string;
+  readonly photo: string;
 }
 
-export const createUser = (data: any): User => {
-  return {
-    id: data.id,
-    username: data.username,
-    first_name: data.first_name,
-    last_name: data.last_name,
-    group: data.group,
-    photo: data.photo,
-  };
-};
-
 export interface Token {
-  access: string;
-  refresh: string;
+  readonly access: string;
+  readonly refresh: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  private static parseUserFromAccessToken(accessToken: string): User {
+    const [, payload, ] = accessToken.split('.');
+    const decoded = window.atob(payload);
+    return JSON.parse(decoded);
+  }
 
-  static getUser(): User {
+  static getUser(): User | undefined {
     const accessToken = this.getAccessToken();
     if (accessToken) {
       return this.parseUserFromAccessToken(accessToken);
@@ -43,8 +36,12 @@ export class AuthService {
     return undefined;
   }
 
-  static getAccessToken(): string {
-    const token = JSON.parse(window.localStorage.getItem('taxi.auth'));
+  static getAccessToken(): string | undefined {
+    const item = window.localStorage.getItem('taxi.auth');
+    if (!item) {
+      return undefined;
+    }
+    const token = JSON.parse(item);
     if (token) {
       return token.access;
     }
@@ -67,11 +64,7 @@ export class AuthService {
     return false;
   }
 
-  private static parseUserFromAccessToken(accessToken: string): User {
-    const [, payload, ] = accessToken.split('.');
-    const decoded = window.atob(payload);
-    return JSON.parse(decoded);
-  }
+  constructor(private http: HttpClient) {}
 
   signUp(
     username: string,

@@ -1,15 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgmCoreModule } from '@agm/core';
 import { ToastrModule } from 'ngx-toastr';
 
-import { environment } from '../../../environments/environment';
-
-import { GoogleMapsService } from '../../services/google-maps.service';
 import { TripService } from '../../services/trip.service';
 import { createFakeTrip } from '../../testing/factories';
 import { RiderRequestComponent } from './rider-request.component';
@@ -20,28 +17,22 @@ describe('RiderRequestComponent', () => {
   let tripService: TripService;
   let router: Router;
 
-  class MockGoogleMapsService {}
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([]),
-        AgmCoreModule.forRoot({
-          apiKey: environment.GOOGLE_API_KEY
-        }),
+        GoogleMapsModule,
         ToastrModule.forRoot()
       ],
       declarations: [ RiderRequestComponent ],
-      providers: [
-        { provide: GoogleMapsService, useClass: MockGoogleMapsService }
-      ]
+      providers: [ TripService ]
     });
     fixture = TestBed.createComponent(RiderRequestComponent);
     component = fixture.componentInstance;
-    tripService = TestBed.get(TripService);
-    router = TestBed.get(Router);
+    tripService = TestBed.inject(TripService);
+    router = TestBed.inject(Router);
   });
 
   it('should create', () => {

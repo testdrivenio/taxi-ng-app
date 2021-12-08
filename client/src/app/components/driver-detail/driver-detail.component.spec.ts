@@ -35,7 +35,7 @@ describe('DriverDetailComponent', () => {
     });
     fixture = TestBed.createComponent(DriverDetailComponent);
     component = fixture.componentInstance;
-    tripService = TestBed.get(TripService);
+    tripService = TestBed.inject(TripService);
   });
 
   it('should update data on initialization', waitForAsync(() => {

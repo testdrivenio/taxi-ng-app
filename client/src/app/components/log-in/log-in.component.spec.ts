@@ -32,8 +32,8 @@ describe('LogInComponent', () => {
     });
     fixture = TestBed.createComponent(LogInComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
-    httpMock = TestBed.get(HttpTestingController);
+    router = TestBed.inject(Router);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should allow a user to log into an existing account', () => {

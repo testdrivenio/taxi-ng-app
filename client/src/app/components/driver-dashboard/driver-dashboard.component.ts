@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
-import { ToastrService } from 'ngx-toastr';
-
-import { Trip, TripService, createTrip } from '../../services/trip.service';
+import { Trip, TripService } from '../../services/trip.service';
 
 @Component({
   selector: 'app-driver-dashboard',
@@ -13,48 +12,48 @@ import { Trip, TripService, createTrip } from '../../services/trip.service';
   styleUrls: ['./driver-dashboard.component.css']
 })
 export class DriverDashboardComponent implements OnInit, OnDestroy {
-  messages: Subscription;
-  trips: Trip[];
+  messages!: Subscription;
+  trips!: Array<Trip>;
 
   constructor(
-    private toastr: ToastrService,
     private route: ActivatedRoute,
+    private toastr: ToastrService,
     private tripService: TripService
   ) {}
 
-  get currentTrips(): Trip[] {
-    return this.trips.filter((trip: Trip) => {
+  get currentTrips(): ReadonlyArray<Trip> {
+    return this.trips.filter(trip => {
       return trip.driver !== null && trip.status !== 'COMPLETED';
     });
   }
 
-  get requestedTrips(): Trip[] {
-    return this.trips.filter((trip: Trip) => trip.status === 'REQUESTED');
+  get requestedTrips(): ReadonlyArray<Trip> {
+    return this.trips.filter(trip => trip.status === 'REQUESTED');
   }
 
-  get completedTrips(): Trip[] {
-    return this.trips.filter((trip: Trip) => trip.status === 'COMPLETED');
+  get completedTrips(): ReadonlyArray<Trip> {
+    return this.trips.filter(trip => trip.status === 'COMPLETED');
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe((data: { trips: Trip[] }) => this.trips = data.trips);
+    this.route.data.subscribe(data => this.trips = data['trips']);
     this.tripService.connect();
     this.messages = this.tripService.messages.subscribe((message: any) => {
-      const trip: Trip = createTrip(message.data);
+      const trip: Trip = message.data;
       this.updateTrips(trip);
       this.updateToast(trip);
     });
   }
 
+  updateToast(trip: Trip): void {
+    if (trip.driver === null) {
+      this.toastr.info(`Rider ${trip.rider!.first_name} has requested a trip.`);
+    }
+  }
+
   updateTrips(trip: Trip): void {
     this.trips = this.trips.filter((thisTrip: Trip) => thisTrip.id !== trip.id);
     this.trips.push(trip);
-  }
-
-  updateToast(trip: Trip): void {
-    if (trip.driver === null) {
-      this.toastr.info(`Rider ${trip.rider.username} has requested a trip.`);
-    }
   }
 
   ngOnDestroy(): void {

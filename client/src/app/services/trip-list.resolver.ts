@@ -10,10 +10,10 @@ import { Trip, TripService } from '../services/trip.service';
 @Injectable({
   providedIn: 'root'
 })
-export class TripListResolver implements Resolve<Trip[]> {
+export class TripListResolver implements Resolve<ReadonlyArray<Trip>> {
   constructor(private tripService: TripService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Trip[]> {
+  resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<ReadonlyArray<Trip>> {
     return this.tripService.getTrips();
   }
 }

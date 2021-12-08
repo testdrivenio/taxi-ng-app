@@ -1,10 +1,12 @@
-FROM node:15.4.0-alpine
+FROM node:16.13-alpine
 
 RUN echo @edge http://nl.alpinelinux.org/alpine/latest-stable/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/latest-stable/main >> /etc/apk/repositories \
     && apk add --no-cache \
-    chromium@edge \
-    harfbuzz@edge \
+    chromium \
+    harfbuzz \
+    "freetype>2.8" \
+    ttf-freefont \
     nss@edge \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk
@@ -20,5 +22,7 @@ COPY package.json /usr/src/app/package.json
 COPY package-lock.json /usr/src/app/package-lock.json
 
 RUN npm install
+
+RUN npm install -g @angular/cli@13.0.4
 
 COPY . /usr/src/app

@@ -16,8 +16,8 @@ describe('TripService', () => {
         HttpClientTestingModule
       ]
     });
-    tripService = TestBed.get(TripService);
-    httpMock = TestBed.get(HttpTestingController);
+    tripService = TestBed.inject(TripService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should allow a user to get a list of trips', () => {
@@ -37,7 +37,7 @@ describe('TripService', () => {
     expect(tripService.webSocket.next).toHaveBeenCalledWith({
       type: 'create.trip',
       data: {
-        ...trip, rider: trip.rider.id
+        ...trip, rider: trip.rider!.id
       }
     });
   });
@@ -58,7 +58,7 @@ describe('TripService', () => {
     expect(tripService.webSocket.next).toHaveBeenCalledWith({
       type: 'update.trip',
       data: {
-        ...trip, driver: trip.driver.id, rider: trip.rider.id
+        ...trip, driver: trip.driver!.id, rider: trip.rider!.id
       }
     });
   });
