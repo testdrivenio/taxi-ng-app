@@ -17,10 +17,12 @@ class UserData {
 })
 export class LogInComponent {
   user: UserData = new UserData();
+
   constructor(
     private router: Router,
     private authService: AuthService
   ) {}
+
   onSubmit(): void {
     this.authService.logIn(
       this.user.username, this.user.password

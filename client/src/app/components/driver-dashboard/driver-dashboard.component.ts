@@ -45,15 +45,15 @@ export class DriverDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateToast(trip: Trip): void {
-    if (trip.driver === null) {
-      this.toastr.info(`Rider ${trip.rider!.first_name} has requested a trip.`);
-    }
-  }
-
   updateTrips(trip: Trip): void {
     this.trips = this.trips.filter((thisTrip: Trip) => thisTrip.id !== trip.id);
     this.trips.push(trip);
+  }
+
+  updateToast(trip: Trip): void {
+    if (trip.driver === null) {
+      this.toastr.info(`Rider ${trip.rider!.username} has requested a trip.`);
+    }
   }
 
   ngOnDestroy(): void {

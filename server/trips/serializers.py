@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer 
 
 from .models import Trip
 
@@ -34,12 +34,12 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'username', 'password1', 'password2',
             'first_name', 'last_name', 'group',
-            'photo',
+            'photo', 
         )
         read_only_fields = ('id',)
 
 
-class LogInSerializer(TokenObtainPairSerializer):
+class LogInSerializer(TokenObtainPairSerializer): 
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
@@ -62,3 +62,4 @@ class NestedTripSerializer(serializers.ModelSerializer):
         model = Trip
         fields = '__all__'
         depth = 1
+        

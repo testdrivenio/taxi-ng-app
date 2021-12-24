@@ -13,6 +13,7 @@
       <div class="card-body">
         <div *ngIf="apiLoaded | async" class="mb-3">
           <google-map height="300px" width="100%" [center]="origin">
+            <!-- new -->
             <map-directions-renderer
               *ngIf="(directions | async) as directions"
               [directions]="directions"
@@ -44,6 +45,7 @@
             >
           </div>
           <div class="d-grid">
+            <!-- new -->
             <button
               class="btn btn-primary mb-3"
               type="button"

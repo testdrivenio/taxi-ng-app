@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  GOOGLE_API_KEY: '<api_key>'
+  GOOGLE_API_KEY: '<your Google Cloud Platform API key>'
 };
 
 /*

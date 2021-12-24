@@ -10,6 +10,7 @@ from rest_framework_simplejwt.tokens import AccessToken
 
 User = get_user_model()
 
+
 @database_sync_to_async
 def get_user(scope):
     close_old_connections()
@@ -34,4 +35,3 @@ class TokenAuthMiddleware(AuthMiddleware):
 
 def TokenAuthMiddlewareStack(inner):
     return CookieMiddleware(SessionMiddleware(TokenAuthMiddleware(inner)))
-    

@@ -43,19 +43,19 @@ export class RiderDashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateToast(trip: Trip): void {
-    if (trip.status === 'STARTED') {
-      this.toastr.info(`Driver ${trip.driver!.first_name} is coming to pick you up.`);
-    } else if (trip.status === 'IN_PROGRESS') {
-      this.toastr.info(`Driver ${trip.driver!.first_name} is headed to your destination.`);
-    } else if (trip.status === 'COMPLETED') {
-      this.toastr.info(`Driver ${trip.driver!.first_name} has dropped you off.`);
-    }
-  }
-
   updateTrips(trip: Trip): void {
     this.trips = this.trips.filter((thisTrip: Trip) => thisTrip.id !== trip.id);
     this.trips.push(trip);
+  }
+
+  updateToast(trip: Trip): void {
+    if (trip.status === 'STARTED') {
+      this.toastr.info(`Driver ${trip.driver!.username} is coming to pick you up.`);
+    } else if (trip.status === 'IN_PROGRESS') {
+      this.toastr.info(`Driver ${trip.driver!.username} is headed to your destination.`);
+    } else if (trip.status === 'COMPLETED') {
+      this.toastr.info(`Driver ${trip.driver!.username} has dropped you off.`);
+    }
   }
 
   ngOnDestroy(): void {
