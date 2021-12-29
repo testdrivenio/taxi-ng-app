@@ -11,45 +11,48 @@
     <div class="card">
       <h4 class="card-header">Trip</h4>
       <div class="card-body">
-        <ul class="list-unstyled mb-0">
-          <li class="media">
-            <img
-              class="mr-3 rounded-circle"
-              [src]="trip.rider.photo"
-              width="80"
-              height="80"
-            >
-            <div class="media-body">
-              <h5 class="mt-0 mb-1">{{ trip.rider.username }}</h5>
-              {{ trip.pick_up_address }} to {{ trip.drop_off_address }}<br>
-              {{ trip.status }}
-            </div>
-          </li>
-        </ul>
+        <div class="d-flex">
+          <img class="me-3 rounded-circle" [src]="trip.rider!.photo" width="80" height="80">
+          <div>
+            <h5 class="mt-0 mb-1 fw-bold">{{ trip.rider!.first_name }}</h5>
+            <p>
+              <strong>{{ trip.pick_up_address }}</strong> to <strong>{{ trip.drop_off_address }}</strong><br>
+              <span class="text-secondary">{{ trip.status }}</span>
+            </p>
+          </div>
+        </div>
       </div>
       <div class="card-footer" [ngSwitch]="trip.status">
-        <button
-          class="btn btn-primary btn-block"
-          *ngSwitchCase="'REQUESTED'"
-          (click)="updateTripStatus('STARTED')"
-        >
-          Drive to pick up
-        </button>
-        <button
-          class="btn btn-primary btn-block"
-          *ngSwitchCase="'STARTED'"
-          (click)="updateTripStatus('IN_PROGRESS')"
-        >
-          Drive to drop off
-        </button>
-        <button
-          class="btn btn-primary btn-block"
-          *ngSwitchCase="'IN_PROGRESS'"
-          (click)="updateTripStatus('COMPLETED')"
-        >
-          Complete trip
-        </button>
-        <span class="text-center" *ngSwitchDefault>Completed</span>
+        <div class="d-grid">
+          <button
+            class="btn btn-primary"
+            *ngSwitchCase="'REQUESTED'"
+            (click)="updateTripStatus('STARTED')"
+          >
+            Drive to pick up
+          </button>
+          <button
+            class="btn btn-primary"
+            *ngSwitchCase="'STARTED'"
+            (click)="updateTripStatus('IN_PROGRESS')"
+          >
+            Drive to drop off
+          </button>
+          <button
+            class="btn btn-primary"
+            *ngSwitchCase="'IN_PROGRESS'"
+            (click)="updateTripStatus('COMPLETED')"
+          >
+            Complete trip
+          </button>
+        </div>
+        <div class="d-grid" *ngSwitchDefault>
+          <button
+            class="btn btn-success"
+            disabled
+          >Completed
+          </button>
+        </div>
       </div>
     </div>
   </div>

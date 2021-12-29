@@ -9,13 +9,11 @@ import { Trip } from '../../services/trip.service';
   styleUrls: ['./rider-detail.component.css']
 })
 export class RiderDetailComponent implements OnInit {
-  trip: Trip;
+  trip!: Trip;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe(
-      (data: { trip: Trip }) => this.trip = data.trip
-    );
+    this.route.data.subscribe(data => this.trip = data['trip']);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 
-import { Trip } from '../../services/trip.service';
+import { User } from '../../services/auth.service';
+import { Trip, otherUser } from '../../services/trip.service';
 
 @Component({
   selector: 'app-trip-card',
@@ -8,8 +9,12 @@ import { Trip } from '../../services/trip.service';
   styleUrls: ['./trip-card.component.css']
 })
 export class TripCardComponent {
-  @Input() title: string;
-  @Input() trips: Trip[];
+  @Input() title!: string;
+  @Input() trips!: ReadonlyArray<Trip>;
 
   constructor() {}
+
+  otherUser(trip: Trip): User | null {
+    return otherUser(trip);
+  }
 }

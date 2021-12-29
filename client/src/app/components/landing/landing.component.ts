@@ -10,7 +10,7 @@ import { AuthService, User } from '../../services/auth.service';
 export class LandingComponent {
   constructor(private authService: AuthService) {}
 
-  getUser(): User {
+  getUser(): User | undefined {
     return AuthService.getUser();
   }
 

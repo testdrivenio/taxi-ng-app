@@ -2,9 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Data } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Observable, of } from 'rxjs';
-
 import { ToastrModule } from 'ngx-toastr';
+import { Observable, of } from 'rxjs';
 
 import { TripService } from '../../services/trip.service';
 import { createFakeTrip } from '../../testing/factories';

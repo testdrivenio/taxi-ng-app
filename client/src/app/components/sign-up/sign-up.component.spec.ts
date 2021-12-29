@@ -32,8 +32,8 @@ describe('SignUpComponent', () => {
     });
     fixture = TestBed.createComponent(SignUpComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
-    httpMock = TestBed.get(HttpTestingController);
+    router = TestBed.inject(Router);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should allow a user to sign up for an account', () => {

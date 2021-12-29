@@ -2,7 +2,7 @@ import { IsRider } from './is-rider.service';
 import { createFakeToken, createFakeUser } from '../testing/factories';
 
 describe('IsRider', () => {
-  let isRider;
+  let isRider: IsRider;
 
   beforeEach(() => {
     isRider = new IsRider();

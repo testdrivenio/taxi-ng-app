@@ -11,7 +11,7 @@ import { Trip, TripService } from '../services/trip.service';
 export class TripDetailResolver implements Resolve<Trip> {
   constructor(private tripService: TripService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Trip> {
-    return this.tripService.getTrip(route.params.id);
+  resolve(route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<Trip> {
+    return this.tripService.getTrip(route.params['id']);
   }
 }

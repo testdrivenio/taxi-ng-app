@@ -1,16 +1,13 @@
 import pytest
-
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
-
 from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
 from channels.testing import WebsocketCommunicator
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from rest_framework_simplejwt.tokens import AccessToken
 
 from taxi.routing import application
 from trips.models import Trip
-
 
 TEST_CHANNEL_LAYERS = {
     'default': {
@@ -20,17 +17,7 @@ TEST_CHANNEL_LAYERS = {
 
 
 @database_sync_to_async
-def create_user(username, password):
-    user = get_user_model().objects.create_user(
-        username=username,
-        password=password
-    )
-    access = AccessToken.for_user(user)
-    return user, access
-
-
-@database_sync_to_async
-def create_user( # changed
+def create_user( 
     username,
     password,
     group='rider'
@@ -42,7 +29,7 @@ def create_user( # changed
     )
 
     # Create user group.
-    user_group, _ = Group.objects.get_or_create(name=group) # new
+    user_group, _ = Group.objects.get_or_create(name=group) 
     user.groups.add(user_group)
     user.save()
 
@@ -70,7 +57,7 @@ def create_trip(
 
 
 @pytest.mark.asyncio
-@pytest.mark.django_db(transaction=True) 
+@pytest.mark.django_db(transaction=True)
 class TestWebSocket:
     async def test_can_connect_to_server(self, settings):
         settings.CHANNEL_LAYERS = TEST_CHANNEL_LAYERS
@@ -94,32 +81,12 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        connected, _ = await communicator.connect()
+        await communicator.connect()
         message = {
             'type': 'echo.message',
             'data': 'This is a test message.',
         }
         await communicator.send_json_to(message)
-        response = await communicator.receive_json_from()
-        assert response == message
-        await communicator.disconnect()
-
-    async def test_can_send_and_receive_broadcast_messages(self, settings):
-        settings.CHANNEL_LAYERS = TEST_CHANNEL_LAYERS
-        _, access = await create_user(
-            'test.user@example.com', 'pAssw0rd'
-        )
-        communicator = WebsocketCommunicator(
-            application=application,
-            path=f'/taxi/?token={access}'
-        )
-        connected, _ = await communicator.connect()
-        message = {
-            'type': 'echo.message',
-            'data': 'This is a test message.',
-        }
-        channel_layer = get_channel_layer()
-        await channel_layer.group_send('test', message=message)
         response = await communicator.receive_json_from()
         assert response == message
         await communicator.disconnect()
@@ -143,7 +110,7 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        connected, _ = await communicator.connect()
+        await communicator.connect()
         message = {
             'type': 'echo.message',
             'data': 'This is a test message.',
@@ -163,7 +130,7 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        connected, _ = await communicator.connect()
+        await communicator.connect()
         await communicator.send_json_to({
             'type': 'create.trip',
             'data': {
@@ -199,7 +166,7 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        connected, _ = await communicator.connect()
+        await communicator.connect()
 
         # Request a trip.
         await communicator.send_json_to({
@@ -230,7 +197,7 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        connected, _ = await communicator.connect()
+        await communicator.connect()
 
         # Send a ride request.
         await communicator.send_json_to({
@@ -268,7 +235,7 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        connected, _ = await communicator.connect()
+        await communicator.connect()
 
         # Send a message to the trip group.
         message = {
@@ -309,7 +276,7 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        connected, _ = await communicator.connect()
+        await communicator.connect()
         message = {
             'type': 'update.trip',
             'data': {
@@ -341,7 +308,7 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        connected, _ = await communicator.connect()
+        await communicator.connect()
 
         # Send a message to the trip group.
         message = {

@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AuthService } from '../../services/auth.service';
 import { createFakeToken, createFakeUser } from '../../testing/factories';
-import { LogInComponent } from '../log-in/log-in.component';
+import { LogInComponent } from './log-in.component';
 
 describe('LogInComponent', () => {
   let component: LogInComponent;
@@ -32,8 +32,8 @@ describe('LogInComponent', () => {
     });
     fixture = TestBed.createComponent(LogInComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
-    httpMock = TestBed.get(HttpTestingController);
+    router = TestBed.inject(Router);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   it('should allow a user to log into an existing account', () => {

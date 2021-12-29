@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 
-import { ToastrService } from 'ngx-toastr';
-
-import { Trip, TripService, createTrip } from '../../services/trip.service';
+import { Trip, TripService } from '../../services/trip.service';
 
 @Component({
   selector: 'app-rider-dashboard',
@@ -13,32 +12,32 @@ import { Trip, TripService, createTrip } from '../../services/trip.service';
   styleUrls: ['./rider-dashboard.component.css']
 })
 export class RiderDashboardComponent implements OnInit, OnDestroy {
-  messages: Subscription;
-  trips: Trip[];
+  messages!: Subscription;
+  trips!: Array<Trip>;
 
   constructor(
-    private toastr: ToastrService,
     private route: ActivatedRoute,
+    private toastr: ToastrService,
     private tripService: TripService
   ) {}
 
-  get currentTrips(): Trip[] {
+  get currentTrips(): ReadonlyArray<Trip> {
     return this.trips.filter(trip => {
       return trip.driver !== null && trip.status !== 'COMPLETED';
     });
   }
 
-  get completedTrips(): Trip[] {
+  get completedTrips(): ReadonlyArray<Trip> {
     return this.trips.filter(trip => {
       return trip.status === 'COMPLETED';
     });
   }
 
   ngOnInit(): void {
-    this.route.data.subscribe((data: { trips: Trip[] }) => this.trips = data.trips);
+    this.route.data.subscribe(data => this.trips = data['trips']);
     this.tripService.connect();
     this.messages = this.tripService.messages.subscribe((message: any) => {
-      const trip: Trip = createTrip(message.data);
+      const trip: Trip = message.data;
       this.updateTrips(trip);
       this.updateToast(trip);
     });
@@ -51,11 +50,11 @@ export class RiderDashboardComponent implements OnInit, OnDestroy {
 
   updateToast(trip: Trip): void {
     if (trip.status === 'STARTED') {
-      this.toastr.info(`Driver ${trip.driver.username} is coming to pick you up.`);
+      this.toastr.info(`Driver ${trip.driver!.username} is coming to pick you up.`);
     } else if (trip.status === 'IN_PROGRESS') {
-      this.toastr.info(`Driver ${trip.driver.username} is headed to your destination.`);
+      this.toastr.info(`Driver ${trip.driver!.username} is headed to your destination.`);
     } else if (trip.status === 'COMPLETED') {
-      this.toastr.info(`Driver ${trip.driver.username} has dropped you off.`);
+      this.toastr.info(`Driver ${trip.driver!.username} has dropped you off.`);
     }
   }
 

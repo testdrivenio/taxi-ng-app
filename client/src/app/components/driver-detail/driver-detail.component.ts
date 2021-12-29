@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
-import { Trip, TripService } from '../../services/trip.service';
+import { TripService, WritableTripData } from '../../services/trip.service';
 
 @Component({
   selector: 'app-driver-detail',
@@ -10,7 +10,7 @@ import { Trip, TripService } from '../../services/trip.service';
   styleUrls: ['./driver-detail.component.css']
 })
 export class DriverDetailComponent implements OnInit {
-  trip: Trip;
+  trip!: WritableTripData;
 
   constructor(
     private route: ActivatedRoute,
@@ -18,11 +18,11 @@ export class DriverDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe((data: { trip: Trip }) => this.trip = data.trip);
+    this.route.data.subscribe(data => this.trip = data['trip']);
   }
 
   updateTripStatus(status: string): void {
-    this.trip.driver = AuthService.getUser();
+    this.trip.driver = AuthService.getUser() ?? null;
     this.trip.status = status;
     this.tripService.updateTrip(this.trip);
   }

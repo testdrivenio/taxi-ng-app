@@ -32,6 +32,6 @@ class TokenAuthMiddleware(AuthMiddleware):
     async def resolve_scope(self, scope):
         scope['user']._wrapped = await get_user(scope)
 
-        
+
 def TokenAuthMiddlewareStack(inner):
     return CookieMiddleware(SessionMiddleware(TokenAuthMiddleware(inner)))

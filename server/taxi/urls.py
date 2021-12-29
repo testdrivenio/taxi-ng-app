@@ -5,7 +5,6 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 from trips.views import SignUpView, LogInView
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/sign_up/', SignUpView.as_view(), name='sign_up'),

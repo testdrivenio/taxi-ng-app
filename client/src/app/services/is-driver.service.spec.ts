@@ -2,7 +2,7 @@ import { IsDriver } from './is-driver.service';
 import { createFakeToken, createFakeUser } from '../testing/factories';
 
 describe('IsDriver', () => {
-  let isDriver;
+  let isDriver: IsDriver;
 
   beforeEach(() => {
     isDriver = new IsDriver();
