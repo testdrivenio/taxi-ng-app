@@ -8,7 +8,9 @@ services:
   taxi-database:
     container_name: taxi-database
     environment:
+      - POSTGRES_USER=taxi
       - POSTGRES_PASSWORD=taxi
+      - POSTGRES_DB=taxi
     image: postgres:14.1
     ports:
       - 5433:5432

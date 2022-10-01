@@ -9,7 +9,7 @@ RUN echo @edge http://nl.alpinelinux.org/alpine/latest-stable/community >> /etc/
     harfbuzz \
     "freetype>2.8" \
     ttf-freefont \
-    nss@edge \
+    nss \
     && rm -rf /var/cache/* \
     && mkdir /var/cache/apk
 
