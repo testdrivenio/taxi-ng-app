@@ -75,7 +75,10 @@ export class RiderRequestComponent implements OnInit {
     this.router.navigateByUrl('/rider');
   }
 
-  getDirections(pickUpAddress: string, dropOffAddress: string): Observable<google.maps.DirectionsResult | null> {
+  getDirections(
+    pickUpAddress: string,
+    dropOffAddress: string
+  ): Observable<google.maps.DirectionsResult | null> {
     const request: google.maps.DirectionsRequest = {
       origin: pickUpAddress,
       destination: dropOffAddress,

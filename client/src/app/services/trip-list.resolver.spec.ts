@@ -2,7 +2,7 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
-import { Trip } from '../services/trip.service';
+import { Trip } from './trip.service';
 import { TripListResolver } from './trip-list.resolver';
 import { createFakeTrip } from '../testing/factories';
 

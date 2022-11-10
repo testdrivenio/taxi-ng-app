@@ -22,6 +22,8 @@ export interface Token {
   providedIn: 'root'
 })
 export class AuthService {
+  constructor(private http: HttpClient) {}
+
   private static parseUserFromAccessToken(accessToken: string): User {
     const [, payload, ] = accessToken.split('.');
     const decoded = window.atob(payload);
@@ -63,8 +65,6 @@ export class AuthService {
     }
     return false;
   }
-
-  constructor(private http: HttpClient) {}
 
   signUp(
     username: string,

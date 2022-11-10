@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 import { TripService } from '../../services/trip.service';
 import { createFakeTrip } from '../../testing/factories';
 import { RiderDashboardComponent } from './rider-dashboard.component';
-import { TripCardComponent } from '../../components/trip-card/trip-card.component';
+import { TripCardComponent } from '../trip-card/trip-card.component';
 
 describe('RiderDashboardComponent', () => {
   let component: RiderDashboardComponent;

@@ -5,7 +5,7 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { Trip, TripService } from '../services/trip.service';
+import { Trip, TripService } from './trip.service';
 
 @Injectable({
   providedIn: 'root'
