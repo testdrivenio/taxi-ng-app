@@ -1,13 +1,13 @@
-import uuid 
+import uuid
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.db import models 
-from django.shortcuts import reverse 
+from django.db import models
+from django.shortcuts import reverse
 
 
 class User(AbstractUser):
-    photo = models.ImageField(upload_to='photos', null=True, blank=True) 
+    photo = models.ImageField(upload_to='photos', null=True, blank=True)
 
     @property
     def group(self):
@@ -33,14 +33,14 @@ class Trip(models.Model):
     pick_up_address = models.CharField(max_length=255)
     drop_off_address = models.CharField(max_length=255)
     status = models.CharField(max_length=20, choices=STATUSES, default=REQUESTED)
-    driver = models.ForeignKey( 
+    driver = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING,
         related_name='trips_as_driver'
     )
-    rider = models.ForeignKey( 
+    rider = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
@@ -53,4 +53,3 @@ class Trip(models.Model):
 
     def get_absolute_url(self):
         return reverse('trip:trip_detail', kwargs={'trip_id': self.id})
-        

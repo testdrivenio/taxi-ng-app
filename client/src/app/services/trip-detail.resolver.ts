@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 
 import { Observable } from 'rxjs';
 
-import { Trip, TripService } from '../services/trip.service';
+import { Trip, TripService } from './trip.service';
 
 @Injectable({
   providedIn: 'root'

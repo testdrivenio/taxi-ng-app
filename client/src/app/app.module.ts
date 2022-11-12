@@ -45,10 +45,10 @@ import { DriverDetailComponent } from './components/driver-detail/driver-detail.
     DriverDetailComponent
   ],
   imports: [
+    BrowserAnimationsModule,
     HttpClientModule,
     HttpClientJsonpModule,
     BrowserModule,
-    BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
     GoogleMapsModule,

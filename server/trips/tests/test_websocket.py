@@ -1,12 +1,13 @@
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
+
 import pytest
 from channels.db import database_sync_to_async
 from channels.layers import get_channel_layer
 from channels.testing import WebsocketCommunicator
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
 from rest_framework_simplejwt.tokens import AccessToken
 
-from taxi.routing import application
+from taxi.asgi import application
 from trips.models import Trip
 
 TEST_CHANNEL_LAYERS = {
@@ -17,7 +18,7 @@ TEST_CHANNEL_LAYERS = {
 
 
 @database_sync_to_async
-def create_user( 
+def create_user(
     username,
     password,
     group='rider'
@@ -29,7 +30,7 @@ def create_user(
     )
 
     # Create user group.
-    user_group, _ = Group.objects.get_or_create(name=group) 
+    user_group, _ = Group.objects.get_or_create(name=group)
     user.groups.add(user_group)
     user.save()
 
@@ -235,7 +236,7 @@ class TestWebSocket:
             application=application,
             path=f'/taxi/?token={access}'
         )
-        await communicator.connect()
+        connected, _ = await communicator.connect()
 
         # Send a message to the trip group.
         message = {
